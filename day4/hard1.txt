@@ -1,0 +1,74 @@
+ServletTest.java
+
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@WebServlet("/test")
+public class ServletTest extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Connection con = null ;
+        List<String> lst = new ArrayList<>();
+        PrintWriter pr = resp.getWriter();
+        try{
+            System.out.println("try");
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            String url = "jdbc:mysql://localhost:3306/studs";
+            String username = "root";
+            String pass = "0000";
+            con = DriverManager.getConnection(url, username , pass );
+            con.setAutoCommit(true);
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("select ename from employee");
+            while(rs.next()){
+                lst.add(rs.getString("ename"));
+            }
+        } catch(Exception e){
+            System.out.println("error");
+        } finally {
+            try {
+                con.close();
+                System.out.println("connection closed");
+            } catch (Exception e) {
+                System.out.println("Connection Not Closed");
+            }
+        }
+        HttpSession hs = req.getSession();
+        hs.setAttribute("name", lst);
+        resp.sendRedirect("index.jsp");
+}}
+
+index.jsp
+
+<%@ page import="java.util.*" %>
+<html>
+<body>
+<table style="border:2px solid black">
+<tr>
+<th>name</th>
+</tr>
+<%
+List<String> lst= (List)session.getAttribute("name");
+for(String st : lst)
+{
+%>
+<tr>
+<td>
+<%=st%>
+</td>
+</tr>
+<%}%>
+</table>
+</body>
+</html>
