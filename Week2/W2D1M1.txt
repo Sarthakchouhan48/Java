@@ -1,4 +1,5 @@
 W2D1M1_3
+also include Day3 - M1, M2
 
 Medium Question 1: Demonstrate @Configuration and @Bean annotations (Complexity: Medium).
 
