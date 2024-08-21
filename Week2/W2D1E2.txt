@@ -1,0 +1,62 @@
+Easy 2:
+
+DemoApplication.java------
+
+package com.prob.demo;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+
+@SpringBootApplication
+public class DemoApplication {
+
+	public static void main(String[] args) {
+
+		ApplicationContext context = SpringApplication.run(DemoApplication.class, args);
+
+		Dev obj = context.getBean(Dev.class);
+
+		obj.build();
+	}
+
+}
+
+Dev.java-------
+
+package com.prob.demo;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public class Dev {
+
+    @Autowired
+    private Laptop laptop;
+
+    public void build(){
+        laptop.compile();
+        System.out.println("build");
+    }
+}
+
+Laptop.java-------
+
+package com.prob.demo;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class Laptop {
+
+    public void compile(){
+        System.out.println("Compiled in Laptop");
+    }
+}
+
+Output:
+-Compiled in Laptop
+-build
+
+

@@ -1,0 +1,140 @@
+W2D1
+Quetions Coverd in this: Day1- E2, M2 Day2- M1, M2, M3, H1 Day4- E2, M1
+
+application.properties-------
+
+spring.application.name=Que
+
+spring.datasource.url=jdbc:mysql://localhost:3306/studs
+spring.datasource.username=root
+spring.datasource.password=0000
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
+
+Prodcontroller.java---------
+
+package com.prob.Que;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController
+public class Prodcontroller {
+
+    @Autowired
+    Prodservice prodservice;
+
+    @GetMapping("/products")
+    public List<Product> getprod(){
+        return prodservice.getproduct();
+    }
+
+    @PutMapping("/products")
+    public void putprod(@RequestBody Product prod){
+        prodservice.putprod(prod);
+    }
+
+}
+
+Prodservices.java-------
+
+package com.prob.Que;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+@Service
+public class Prodservice {
+
+    @Autowired
+    Productrepo repo;
+
+    public List<Product> getproduct(){
+        return repo.findAll();
+    }
+
+
+    public void putprod(Product prod) {
+        repo.save(prod);
+    }
+}
+
+Productrepo.java-------
+
+package com.prob.Que;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface Productrepo extends JpaRepository<Product, Integer> {
+
+}
+
+Product.java--------
+
+package com.prob.Que;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+
+@Component
+@Entity
+public class Product {
+    public Product() {
+    }
+
+    @Id
+    private int id;
+
+    private String name;
+    private int price;
+
+    public Product(int id, String name, int price){
+        this.id = id;
+        this.name = name;
+        this.price = price;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+   }
+
+    public String getName() {
+        return name;
+    }
+
+   public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+	    }
+
+    }
+}
+

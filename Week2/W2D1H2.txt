@@ -1,0 +1,79 @@
+Hard 2
+
+DemoApplication.java-----
+package com.prob.demo;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+
+@SpringBootApplication
+public class DemoApplication {
+
+	public static void main(String[] args) {
+
+		ApplicationContext context = SpringApplication.run(DemoApplication.class, args);
+
+		Dev obj = context.getBean(Dev.class);
+
+		obj.build();
+	}
+
+}
+
+Dev.java-------
+package com.prob.demo;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
+@Component
+public class Dev {
+
+    @Autowired
+    @Qualifier("desktop")
+    private Computer comp;
+
+    public void build(){
+        comp.compile();
+        System.out.println("build");
+    }
+}
+
+Computer.java------
+package com.prob.demo;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public interface Computer {
+    public void compile();
+}
+
+Desktop.java------
+package com.prob.demo;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class Desktop implements Computer {
+
+    public void compile(){
+        System.out.println("Compiled in Computer");
+    }
+}
+
+Laptop.java-------
+package com.prob.demo;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class Laptop implements Computer {
+
+    public void compile(){
+        System.out.println("Compiled in Laptop");
+    }
+}
+

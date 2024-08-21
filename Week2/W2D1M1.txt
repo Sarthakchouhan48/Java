@@ -1,0 +1,81 @@
+W2D1M1_3
+
+Medium Question 1: Demonstrate @Configuration and @Bean annotations (Complexity: Medium).
+
+App.java--------
+
+package org.example;
+
+import org.example.Comp.Iphone;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Configuration;
+
+public class App 
+{
+    public static void main( String[] args )
+    {
+        ApplicationContext context = new AnnotationConfigApplicationContext(config.class);
+        Samsung s = context.getBean(Samsung.class);
+        Iphone i = context.getBean(Iphone.class);
+        s.phone();
+        i.smartphone();
+
+    }
+}
+
+Samsung.java----
+
+package org.example;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class Samsung {
+
+    public void phone(){
+        System.out.println("SAMSUNG S24 ULTRA");
+    }
+}
+
+iPhone.java----
+
+package org.example.Comp;
+
+public class Iphone {
+
+    public void smartphone(){
+        System.out.println("Iphone 15PRO MAX");
+    }
+
+
+config.java-----
+
+package org.example;
+
+import org.example.Comp.Iphone;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@ComponentScan({"org.example", "org.example.Comp;"})
+public class config {
+
+    @Bean
+    public Samsung samsung(){
+        return new Samsung();
+    }
+
+    @Bean
+    public Iphone Iphone(){
+        return new Iphone();
+    }
+}
+
+
+
+
+
+
