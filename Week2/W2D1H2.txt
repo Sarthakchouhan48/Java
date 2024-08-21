@@ -1,4 +1,4 @@
-Hard 2
+Hard 2 and Day3 - M1, M2
 
 DemoApplication.java-----
 package com.prob.demo;
